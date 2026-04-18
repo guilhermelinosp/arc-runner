@@ -7,7 +7,7 @@ on:
       - "v*"
 
 permissions:
-  contents: read
+  contents: write
   packages: write
 
 jobs:
@@ -35,22 +35,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Generate version
         id: version
         run: |
-          VERSION=v1.0.${{ github.run_number }}
-          MAJOR=v1
-
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "major=$MAJOR" >> $GITHUB_OUTPUT
+          VERSION="v1.0.${{ github.run_number }}"
+          MAJOR="v1"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "major=$MAJOR" >> "$GITHUB_OUTPUT"
 
       - name: Create version tag
         run: |
-          git tag ${{ steps.version.outputs.version }}
-          git push origin ${{ steps.version.outputs.version }}
+          git tag -a "${{ steps.version.outputs.version }}" -m "Release ${{ steps.version.outputs.version }}"
+          git push origin "${{ steps.version.outputs.version }}" || echo "⚠️ Tag já existe"
 
       - name: Update major tag
         run: |
-          git tag -f ${{ steps.version.outputs.major }}
-          git push origin ${{ steps.version.outputs.major }} --force
+          git tag -f "${{ steps.version.outputs.major }}" "${{ steps.version.outputs.version }}"
+          git push origin "${{ steps.version.outputs.major }}" --force
