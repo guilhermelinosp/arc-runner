@@ -43,6 +43,16 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "major=$MAJOR" >> $GITHUB_OUTPUT
 
+      - name: Configure git auth for push
+        env:
+          REPO_PAT: ${{ secrets.GHCR_PAT }}
+        run: |
+          # configure git user
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # set remote to use PAT for authentication so push succeeds
+          git remote set-url origin "https://x-access-token:${REPO_PAT}@github.com/${{ github.repository }}.git"
+
       - name: Create version tag
         run: |
           git tag ${{ steps.version.outputs.version }}
