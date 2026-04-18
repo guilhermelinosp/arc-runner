@@ -23,7 +23,7 @@ jobs:
 
       - name: Login GHCR
         run: |
-          echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u guilhermelinosp --password-stdin > /dev/null 2>&1
+          echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin > /dev/null 2>&1
 
       - name: Generate version
         id: version
