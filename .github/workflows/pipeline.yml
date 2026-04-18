@@ -48,4 +48,4 @@ jobs:
 
   release:
     needs: build
-    uses: guilhermelinosp/cd-templates/.github/workflows/release.yaml@latest
+    uses: guilhermelinosp/ci-templates/.github/workflows/release.yaml@latest
