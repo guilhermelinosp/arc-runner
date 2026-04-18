@@ -27,20 +27,13 @@ jobs:
             -u "${{ github.actor }}" \
             --password-stdin
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
+      - name: Build image (legacy)
+        run: |
+          docker build -t ghcr.io/${{ github.repository }}:latest .
 
-      - name: Build and push image (with cache)
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: ghcr.io/${{ github.repository }}:latest
-          platforms: linux/amd64
-          build-args: |
-            TARGETARCH=amd64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      - name: Push image
+        run: |
+          docker push ghcr.io/${{ github.repository }}:latest
 
   release:
     runs-on: [ self-hosted, linux ]
