@@ -48,21 +48,4 @@ jobs:
 
   release:
     needs: build
-    runs-on: [ self-hosted, linux ]
-    if: github.ref_type != 'tag'
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]" > /dev/null 2>&1
-          git config user.email "github-actions[bot]@users.noreply.github.com" > /dev/null 2>&1
-
-      - name: Create version tag
-        run: |
-          git tag -a "${{ needs.build.outputs.version }}" -m "Release ${{ needs.build.outputs.version }}" > /dev/null 2>&1
-          git push origin "${{ needs.build.outputs.version }}" > /dev/null 2>&1 || true
+    uses: guilhermelinosp/cd-templates/.github/workflows/release.yaml@v1.0.0
