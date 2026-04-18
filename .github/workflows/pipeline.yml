@@ -48,6 +48,4 @@ jobs:
 
   release:
     needs: build
-    uses: guilhermelinosp/cd-templates/.github/workflows/release.yaml@v1.0.0
-    with:
-      version: ${{ needs.build.outputs.version }}
+    uses: guilhermelinosp/cd-templates/.github/workflows/release.yaml@latest
