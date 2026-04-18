@@ -2,23 +2,35 @@ FROM summerwind/actions-runner:latest
 
 USER root
 
-RUN curl -LO https://dl.k8s.io/release/v1.30.0/bin/linux/amd64/kubectl \
- && install -m 0755 kubectl /usr/local/bin/kubectl \
- && rm kubectl
+ARG TARGETARCH
 
-RUN curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+# base mínima
+RUN apt-get update && apt-get install -y \
+    git \
+    jq \
+    curl \
+    ca-certificates \
+    unzip \
+ && rm -rf /var/lib/apt/lists/*
 
-# IMPORTANTE: garantir permissões corretas
-RUN chown -R runner:runner /home/runner
+# buildx (multi-arch correto)
+RUN mkdir -p /usr/local/lib/docker/cli-plugins \
+ && curl -sSL https://github.com/docker/buildx/releases/latest/download/buildx-linux-${TARGETARCH} \
+    -o /usr/local/lib/docker/cli-plugins/docker-buildx \
+ && chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
 
-# buildx
-RUN mkdir -p /usr/libexec/docker/cli-plugins \
- && curl -sSL https://github.com/docker/buildx/releases/latest/download/buildx-linux-amd64 \
-    -o /usr/libexec/docker/cli-plugins/docker-buildx \
- && chmod +x /usr/libexec/docker/cli-plugins/docker-buildx
+ENV DOCKER_CLI_PLUGIN_EXTRA_DIRS=/usr/local/lib/docker/cli-plugins
 
-# trivy (opcional mas recomendado)
+# trivy
 RUN curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh \
     | sh -s -- -b /usr/local/bin
+
+# cosign (multi-arch correto)
+RUN curl -sSL https://github.com/sigstore/cosign/releases/latest/download/cosign-linux-${TARGETARCH} \
+    -o /usr/local/bin/cosign \
+ && chmod +x /usr/local/bin/cosign
+
+# permissões
+RUN chown -R runner:runner /home/runner
 
 USER runner
