@@ -65,4 +65,4 @@ jobs:
       - name: Create version tag
         run: |
           git tag -a "${{ needs.build.outputs.version }}" -m "Release ${{ needs.build.outputs.version }}" > /dev/null 2>&1
-          git push origin "${{ needs.build.outputs.version }}" > /dev/null 2>&1 || echo "Tag já existe, ignorando."
+          git push origin "${{ needs.build.outputs.version }}" > /dev/null 2>&1 || true
