@@ -30,7 +30,7 @@ jobs:
   #        docker push ghcr.io/${{ github.repository }}:latest
 
   release:
-    needs: build
+    #needs: build
     runs-on: [ self-hosted, linux ]
     steps:
       - name: Checkout
