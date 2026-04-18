@@ -28,7 +28,7 @@ jobs:
             --password-stdin
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
 
       - name: Build and push image (with cache)
         uses: docker/build-push-action@v4
@@ -36,6 +36,9 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/${{ github.repository }}:latest
+          platforms: linux/amd64
+          build-args: |
+            TARGETARCH=amd64
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

@@ -2,7 +2,7 @@ FROM summerwind/actions-runner:latest
 
 USER root
 
-ARG TARGETARCH
+ARG TARGETARCH=amd64
 
 # base mínima
 RUN apt-get update && apt-get install -y \
