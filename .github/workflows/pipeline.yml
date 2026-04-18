@@ -11,23 +11,23 @@ permissions:
   packages: write
 
 jobs:
-  build:
-    runs-on: [ self-hosted, linux ]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Login GHCR
-        run: |
-          echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u guilhermelinosp --password-stdin
-
-      - name: Build image
-        run: |
-          docker build -t ghcr.io/${{ github.repository }}:latest .
-
-      - name: Push image
-        run: |
-          docker push ghcr.io/${{ github.repository }}:latest
+  #build:
+  #  runs-on: [ self-hosted, linux ]
+  #  steps:
+  #    - name: Checkout
+  #      uses: actions/checkout@v4
+  #
+  #    - name: Login GHCR
+  #      run: |
+  #        echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u guilhermelinosp --password-stdin
+  #
+  #    - name: Build image
+  #      run: |
+  #        docker build -t ghcr.io/${{ github.repository }}:latest .
+  #
+  #    - name: Push image
+  #      run: |
+  #        docker push ghcr.io/${{ github.repository }}:latest
 
   release:
     needs: build
