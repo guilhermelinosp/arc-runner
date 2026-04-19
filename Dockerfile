@@ -75,6 +75,12 @@ RUN chmod +x \
     chown -R runner:docker /home/runner && \
     chmod -R a+rX /usr/local/bin/trivy /usr/local/bin/cosign /usr/local/bin/gh /usr/local/bin/crane /usr/libexec/docker/cli-plugins/docker-buildx
 
+# Install qemu-user-static and register binfmt for multi-arch builds
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends qemu-user-static binfmt-support && rm -rf /var/lib/apt/lists/* \
+  && docker run --rm --privileged tonistiigi/binfmt:latest --install all || true
+USER runner
+
 WORKDIR /home/runner
 USER runner
 

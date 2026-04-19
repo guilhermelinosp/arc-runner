@@ -11,40 +11,12 @@ permissions:
   packages: write
 
 jobs:
+  login:
+    uses: guilhermelinosp/ci-templates/.github/workflows/login.yaml@latest
+
   build:
-    runs-on: [ self-hosted, linux ]
-    outputs:
-      version: ${{ steps.version.outputs.version }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Login GHCR
-        run: |
-          echo "${{ secrets.GHCR_PAT }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin > /dev/null 2>&1
-
-      - name: Generate version
-        id: version
-        run: |
-          if [[ "${{ github.ref_type }}" == "tag" ]]; then
-            VERSION="${{ github.ref_name }}"
-          else
-            VERSION="v1.0.${{ github.run_number }}"
-          fi
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-
-      - name: Build image
-        run: |
-          docker build -t ghcr.io/${{ github.repository }}:latest \
-                       -t ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }} \
-                       . --quiet
-
-      - name: Push image
-        run: |
-          docker push ghcr.io/${{ github.repository }}:latest > /dev/null 2>&1
-          docker push ghcr.io/${{ github.repository }}:${{ steps.version.outputs.version }} > /dev/null 2>&1
+    needs: login
+    uses: guilhermelinosp/ci-templates/.github/workflows/build.yaml@latest
 
   release:
     needs: build
