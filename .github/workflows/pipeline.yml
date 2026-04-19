@@ -15,9 +15,9 @@ jobs:
   login:
     uses: guilhermelinosp/ci-templates/.github/workflows/login.yaml@latest
 
-  build:
+  buildx:
     needs: login
-    uses: guilhermelinosp/ci-templates/.github/workflows/build.yaml@latest
+    uses: guilhermelinosp/ci-templates/.github/workflows/buildx.yaml@latest
 
   release:
     needs: build
