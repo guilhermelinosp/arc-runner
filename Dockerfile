@@ -80,3 +80,6 @@ USER runner
 LABEL org.opencontainers.image.source="https://github.com/guilhermelinosp/arc-runner" \
       org.opencontainers.image.description="Custom actions-runner com ferramentas de segurança e CI" \
       org.opencontainers.image.licenses="MIT"
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD command -v docker >/dev/null && command -v git >/dev/null || exit 1
