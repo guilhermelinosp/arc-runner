@@ -9,7 +9,7 @@ USER root
 ENV DEBIAN_FRONTEND=noninteractive TERM=xterm
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        ca-certificates curl git jq unzip gnupg wget \
+        ca-certificates curl git jq unzip gnupg wget yq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
