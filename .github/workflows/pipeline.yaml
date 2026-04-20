@@ -23,7 +23,7 @@ jobs:
       image: ${{ needs.buildx.outputs.image }}
 
   release:
-    needs: buildx
+    needs: [ buildx, trivy ]
     uses: guilhermelinosp/ci-templates/.github/workflows/release.yaml@latest
 
   push:
