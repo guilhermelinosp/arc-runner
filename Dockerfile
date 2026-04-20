@@ -3,7 +3,7 @@ ARG COSIGN_VERSION=3.0.6
 ARG GH_VERSION=2.90.0
 ARG CRANE_VERSION=0.21.5
 ARG BUILDX_VERSION=0.33.0
-FROM summerwind/actions-runner:latest AS base
+FROM summerwind/actions-runner:latest AS base 
 
 USER root
 ENV DEBIAN_FRONTEND=noninteractive TERM=xterm
