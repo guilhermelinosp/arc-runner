@@ -18,10 +18,14 @@ jobs:
   buildx:
     needs: login
     uses: guilhermelinosp/ci-templates/.github/workflows/buildx.yaml@latest
+    with:
+      image: ${{ needs.buildx.outputs.image }}
 
   push:
     needs: buildx
     uses: guilhermelinosp/ci-templates/.github/workflows/push.yaml@latest
+    with:
+      image: ${{ needs.buildx.outputs.image }}
 
   release:
     needs: [ login, buildx ]
