@@ -32,9 +32,3 @@ jobs:
     with:
       image: ${{ needs.buildx.outputs.image }}
       version: ${{ needs.release.outputs.version }}
-
-  cosign:
-    needs: [ push, buildx ]
-    uses: guilhermelinosp/ci-templates/.github/workflows/cosign.yaml@latest
-    with:
-      image: ${{ needs.buildx.outputs.image }}
