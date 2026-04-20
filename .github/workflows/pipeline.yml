@@ -16,11 +16,11 @@ jobs:
     uses: guilhermelinosp/ci-templates/.github/workflows/buildx.yaml@latest
 
   release:
-    needs: push
+    needs: buildx
     uses: guilhermelinosp/ci-templates/.github/workflows/release.yaml@latest
 
   push:
-    needs: [ buildx, release ]
+    needs: release
     uses: guilhermelinosp/ci-templates/.github/workflows/push.yaml@latest
     with:
       image: ${{ needs.buildx.outputs.image }}
