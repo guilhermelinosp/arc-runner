@@ -53,8 +53,8 @@ FROM base AS crane
 
 ARG CRANE_VERSION
 
-RUN curl -fsSLO "https://github.com/google/go-containerregistry/releases/download/v${CRANE_VERSION}/go-containerregistry_Linux_amd64.tar.gz" && \
-    tar -xzf go-containerregistry_Linux_amd64.tar.gz -C /tmp && \
+RUN curl -fsSLO "https://github.com/google/go-containerregistry/releases/download/v${CRANE_VERSION}/go-containerregistry_Linux_x86_64.tar.gz" && \
+    tar -xzf go-containerregistry_Linux_x86_64.tar.gz -C /tmp && \
     install -m 755 /tmp/crane /usr/local/bin/crane && \
     rm -rf /tmp/go-containerregistry* /tmp/crane
 
