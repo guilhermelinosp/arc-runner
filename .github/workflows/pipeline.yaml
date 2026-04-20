@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   packages: write
+  id-token: write
 
 jobs:
   buildx:
@@ -29,4 +30,4 @@ jobs:
     needs: push
     uses: guilhermelinosp/ci-templates/.github/workflows/sign.yaml@latest
     with:
-      version: ${{ needs.release.outputs.version }}
+      image: ${{ needs.buildx.outputs.image }}
