@@ -1,10 +1,9 @@
-ARG RUNNER_VERSION=latest
 ARG TRIVY_VERSION=0.70.0
 ARG COSIGN_VERSION=3.0.6
 ARG GH_VERSION=2.90.0
 ARG CRANE_VERSION=0.21.5
 ARG BUILDX_VERSION=0.33.0
-FROM ghcr.io/actions/actions-runner:${RUNNER_VERSION} AS base
+FROM summerwind/actions-runner:latest AS base
 
 USER root
 ENV DEBIAN_FRONTEND=noninteractive TERM=xterm
@@ -74,12 +73,6 @@ RUN chmod +x \
         /usr/local/bin/crane && \
     chown -R runner:docker /home/runner && \
     chmod -R a+rX /usr/local/bin/trivy /usr/local/bin/cosign /usr/local/bin/gh /usr/local/bin/crane /usr/libexec/docker/cli-plugins/docker-buildx
-
-# Install qemu-user-static and register binfmt for multi-arch builds
-USER root
-RUN apt-get update && apt-get install -y --no-install-recommends qemu-user-static binfmt-support && rm -rf /var/lib/apt/lists/* \
-  && docker run --rm --privileged tonistiigi/binfmt:latest --install all || true
-USER runner
 
 WORKDIR /home/runner
 USER runner
