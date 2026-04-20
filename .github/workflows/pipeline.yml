@@ -14,3 +14,13 @@ permissions:
 jobs:
   buildx:
     uses: guilhermelinosp/ci-templates/.github/workflows/buildx.yaml@latest
+
+  push:
+    needs: buildx
+    uses: guilhermelinosp/ci-templates/.github/workflows/push.yaml@latest
+    with:
+      image: ${{ needs.buildx.outputs.image }}
+
+  release:
+    needs: push
+    uses: guilhermelinosp/ci-templates/.github/workflows/release.yaml@latest
