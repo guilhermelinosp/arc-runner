@@ -98,8 +98,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines, opening issu
 
 For questions, suggestions, or support, open an issue or email: <your-email@example.com>
       repository: <owner>/<repo>
-```
-
+      
 Apply:
 
 ```sh
