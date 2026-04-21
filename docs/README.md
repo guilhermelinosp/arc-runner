@@ -66,7 +66,7 @@ helm install arc actions-runner-controller/actions-runner-controller \
 
 Create a RunnerDeployment:
 
-```yaml
+```yml
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
@@ -98,11 +98,11 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines, opening issu
 
 For questions, suggestions, or support, open an issue or email: <your-email@example.com>
       repository: <owner>/<repo>
-      
+
 Apply:
 
 ```sh
-kubectl apply -f runner.yaml
+kubectl apply -f runner.yml
 ```
 
 ## Usage

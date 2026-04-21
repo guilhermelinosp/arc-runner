@@ -14,21 +14,21 @@ permissions:
 
 jobs:
   buildx:
-    uses: guilhermelinosp/ci-templates/.github/workflows/buildx.yaml@latest
+    uses: guilhermelinosp/ci-templates/.github/workflows/buildx.yml@latest
 
   trivy:
     needs: buildx
-    uses: guilhermelinosp/ci-templates/.github/workflows/trivy.yaml@latest
+    uses: guilhermelinosp/ci-templates/.github/workflows/trivy.yml@latest
     with:
       image: ${{ needs.buildx.outputs.image }}
 
   release:
     needs: [ buildx, trivy ]
-    uses: guilhermelinosp/ci-templates/.github/workflows/release.yaml@latest
+    uses: guilhermelinosp/ci-templates/.github/workflows/release.yml@latest
 
   push:
     needs: [ release, buildx ]
-    uses: guilhermelinosp/ci-templates/.github/workflows/push.yaml@latest
+    uses: guilhermelinosp/ci-templates/.github/workflows/push.yml@latest
     with:
       image: ${{ needs.buildx.outputs.image }}
       version: ${{ needs.release.outputs.version }}
